@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Médecin{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #4a4a4a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #80005d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #80005d;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #80005d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Modifier le Médecin</h1>
+        {{ form_start(form, {'attr': {'id': 'medecinForm'}}) }}
+            {{ form_row(form.nom, {'label': 'Nom du Médecin', 'attr': {'placeholder': 'Ex: Dr. Dupont'}}) }}
+            {{ form_row(form.specialite, {'label': 'Spécialité'}) }}
+            <button type="submit">Sauvegarder les modifications</button>
+        {{ form_end(form) }}
+        <a href="{{ path('medecin_index') }}" class="back-link">Retour à la liste</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('medecinForm');
+            
+            form.addEventListener('submit', function (e) {
+                const nom = form.querySelector('[name="form[nom]"]').value;
+                const specialite = form.querySelector('[name="form[specialite]"]').value;
+
+                if (!nom.trim() || !specialite.trim()) {
+                    e.preventDefault();
+                    alert('Veuillez remplir tous les champs avant de soumettre le formulaire.');
+                }
+            });
+        });
+    </script>
+{% endblock %}

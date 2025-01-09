@@ -1,0 +1,206 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossier médical - {{ patient.nom }} {{ patient.prenom }}{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        font-family: 'Poppins', 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #4a4a4a;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+    background-color: #80005d;
+    color: #ffffff;
+    padding: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: white;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+header nav a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+header nav a:hover {
+     /*  text-decoration: underline;*/
+    font-weight: bold;
+}
+
+footer {
+    background-color: #80005d;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .container {
+        margin-top: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #d63384;
+        text-align: center;
+    }
+
+    .card {
+        border: 1px solid #ffe6f2;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        color: #4a4a4a;
+    }
+
+    .btn {
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #80005d;
+        border-color: #80005d;
+    }
+
+    .btn-primary:hover {
+        background-color: #e055a3;
+        border-color: #e055a3;
+    }
+
+    .btn-warning {
+        background-color:rgb(217, 17, 137);
+        border-color: rgb(217, 17, 137);
+        color: #fff;
+    }
+
+    .btn-warning:hover {
+        background-color: rgb(217, 17, 137);
+    }
+
+    .btn-danger {
+        background-color:rgb(55, 55, 55);
+        border-color: rgb(55, 55, 55);
+        color: #fff;
+    }
+
+    .btn-danger:hover {
+        background-color: rgb(55, 55, 55);
+    }
+
+    input[type="file"] {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+
+<header>
+    <div class="container">
+        <h1>Gestion des Dossiers</h1>
+        <nav>
+            <a href="{{ path('medecin_dashboard') }}">Dashboard</a>
+            <a href="{{ path('medecin_compte') }}">Mon Compte</a>
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <h1>Dossier médical - {{ patient.nom }} {{ patient.prenom }}</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <h3>Informations patient</h3>
+            <p><strong>Date de naissance:</strong> {{ patient.dateNaissance|date('d/m/Y') }}</p>
+            <p><strong>Numéro CNAM:</strong> {{ patient.numeroCNAM }}</p>
+            <p><strong>CIN:</strong> {{ patient.CIN }}</p>
+            <p><strong>Numéro de téléphone:</strong> {{ patient.numeroTel }}</p>
+            <p><strong>Groupe Sanguin:</strong> {{ patient.GroupeSanguin.value }}</p>
+        </div>
+    </div>
+
+    <div>
+        <h3>Historique médical</h3>
+        {% if historiques|length > 0 %}
+            {% for historique in historiques %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Consultation du {{ historique.date|date('d/m/Y') }}</h5>
+                        <p><strong>Diagnostic:</strong> {{ historique.diagnostic }}</p>
+                        <p><strong>Prescription:</strong> {{ historique.prescription }}</p>
+                        <p><strong>Notes:</strong> {{ historique.notes }}</p>
+                        {% if historique.documents %}
+                            <div>
+                                <h6>Documents:</h6>
+                                <ul>
+                                    {% for document in historique.documents %}
+                                        <li><a href="{{ asset('uploads/documents/' ~ document) }}" target="_blank">{{ document }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <a href="{{ path('medecin_modifier_consultation', {'id': historique.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{{ path('medecin_supprimer_consultation', {'id': historique.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr ?');">Supprimer</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">Aucun historique médical disponible.</div>
+        {% endif %}
+    </div>
+
+    <div>
+        <h3>Nouvelle consultation</h3>
+        <form action="{{ path('medecin_enregistrer_consultation', {'id': patient.id}) }}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="diagnostic">Diagnostic:</label>
+                <textarea id="diagnostic" name="diagnostic" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="prescription">Prescription:</label>
+                <textarea id="prescription" name="prescription" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="documents">Documents:</label>
+                <input type="file" id="documents" name="documents[]" multiple>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="{{ path('medecin_dashboard') }}" class="btn btn-secondary">Retour</a>
+        </form>
+    </div>
+</div>
+<footer>
+    <p>© Copyright 2025 Health.tn Tous droits réservés</p>
+</footer>
+{% endblock %}

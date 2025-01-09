@@ -1,0 +1,150 @@
+{# medecin/dashboard.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord - Patient{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #80005d;
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        header nav a:hover {
+          /*  text-decoration: underline;*/
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #80005d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .list-group {
+            margin: 20px 0;
+        }
+
+        .list-group-item {
+            border: 1px solid #ffe6f2;
+            border-radius: 8px;
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-group-item a {
+            text-decoration: none;
+            color: #d63384;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .list-group-item a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background-color: #80005d;
+            border-color: #80005d;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #80005d;
+            border-color: #80005d;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d63384;
+            text-align: center;
+        }
+
+        h2 {
+            color: #4a4a4a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .text-muted {
+            color: #888;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<header>
+    <div class="container">
+        <h1>Tableau de bord Médecin</h1>
+        <nav>
+            <a href="{{ path('medecin_dashboard') }}">Dashboard</a>
+            <a href="{{ path('medecin_compte') }}">Mon Compte</a>
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container mt-4">
+    <h1>Bienvenue, Dr. {{ app.user.nom }}</h1>
+    <h2>Vos rendez-vous :</h2>
+    <div class="list-group">
+        {% for rdv in rendezVous %}
+            {% if rdv.statut != 'annule' %}
+                <div class="list-group-item {{ rdv.statut == 'termine' ? 'text-muted' : '' }}">
+                    <a href="{{ path('medecin_dossier_patient', {'id': rdv.patient.id}) }}">
+                        {{ rdv.patient.nom }} {{ rdv.patient.prenom }}
+                    </a>
+                    <div>{{ rdv.dateHeure|date('d/m/Y H:i') }} - {{ rdv.motif }}</div>
+                    <div>Statut : {{ rdv.statut }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <a href="{{ path('medecin_compte') }}" class="btn btn-primary mt-3">Gérer mon compte</a>
+</div>
+
+<footer>
+    <div class="container">
+        © Copyright 2025 Health.tn Tous droits réservés
+    </div>
+</footer>
+{% endblock %}

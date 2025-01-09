@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes rendez-vous{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #80005d;
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        header nav a:hover {
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #80005d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d63384;
+            text-align: center;
+        }
+
+        .list-group {
+            margin-top: 20px;
+        }
+
+        .list-group-item {
+            border: 1px solid #ffe6f2;
+            border-radius: 8px;
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #80005d;
+            border-color: #80005d;
+        }
+
+        .btn-primary:hover {
+            background-color: #80005d;
+            border-color: #80005d;
+        }
+
+        .btn-danger {
+            background-color:rgb(50, 50, 50);
+            border-color: rgb(50, 50, 50);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: rgb(50, 50, 50);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-group {
+            margin-top: 10px;
+        }
+    </style>
+
+    <header>
+        <div class="container">
+            <h1>Mes rendez-vous</h1>
+            <nav>
+                <a href="{{ path('patient_dashboard') }}">Dashboard</a>
+                <a href="{{ path('patient_compte') }}">Mon Compte</a>
+                <a href="{{ path('app_logout') }}">Déconnexion</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <h1>Mes rendez-vous</h1>
+
+        <div class="list-group">
+            {% for rdv in rdvs %}
+                <div class="list-group-item">
+                    <h5>Dr. {{ rdv.medecin.nom }} {{ rdv.medecin.prenom }}</h5>
+                    <p>Date: {{ rdv.dateHeure|date('d/m/Y : H:i') }}</p>
+                    <p>Motif: {{ rdv.motif }}</p>
+                    <p>Statut: {{ rdv.statut }}</p>
+                    <p>Notes: {{ rdv.notes }}</p>
+
+                    <div class="btn-group">
+                        {% if rdv.statut != 'Annulé' %}
+                            <a href="{{ path('patient_rdv_modifier', {'id': rdv.id}) }}" 
+                               class="btn btn-primary me-2">
+                                Modifier
+                            </a>
+                            <a href="{{ path('patient_rdv_annuler', {'id': rdv.id}) }}" 
+                               class="btn btn-danger"
+                               onclick="return confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous ?')">
+                                Annuler
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div> 
+
+        <br>
+
+        <a href="{{ path('patient_dashboard') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Retour au tableau de bord
+        </a>
+    </div>
+
+    <footer>
+        <p>© Copyright 2025 Health.tn Tous droits réservés</p>
+    </footer>
+{% endblock %}

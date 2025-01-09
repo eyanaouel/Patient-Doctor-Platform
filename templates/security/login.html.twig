@@ -1,0 +1,219 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #ffe6f2; /* Rose clair */
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #80005d; /* Rose plus foncé */
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        header nav a:hover {
+            font-weight: bold;
+        }
+
+        .outer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px); /* Moins l'espace occupé par le header et le footer */
+        }
+
+        .inner-container {
+            width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #4a4a4a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #9b006e; /* Rose sombre */
+            border-color: #9b006e;
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #80005d; /* Un peu plus sombre au survol */
+            border-color: #80005d;
+        }
+
+        .alert {
+            background-color: #f8d7da;
+            color: #721c24;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+
+        footer {
+            background-color: #80005d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        /* 1. Changer la couleur du mot "Se connecter" */
+        .btn-primary {
+            background-color: #9b006e; /* Rose sombre */
+            border-color: #9b006e;
+        }
+
+        .btn-primary:hover {
+            background-color: #80005d; /* Un peu plus sombre au survol */
+            border-color: #80005d;
+        }
+
+        /* 2. Centrer les liens */
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            display: block;
+            color: #9b006e;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .form-footer a:hover {
+            color: #80005d;
+            text-decoration: underline;
+        }
+
+        /* 3. Mettre "Se souvenir de moi" sur la même ligne que le checkbox */
+        .checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .checkbox label {
+            margin-left: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<header>
+    <div class="container">
+        <h1>Se connecter</h1>
+        <nav> 
+                <a href="{{ path('app_home') }}">Acceuil</a> 
+                <a href="{{ path('app_register', {type: 'medecin'}) }}">S'inscrire comme Médecin</a>
+                <a href="{{ path('app_register', {type: 'patient'}) }}">S'inscrire comme Patient</a>
+        </nav>
+    </div>
+</header> <br><br>
+
+<div class="outer-container">
+    <div class="inner-container">
+        <h1>Se connecter</h1>
+
+        <form method="post">
+            {% if error %}
+                <div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                </div>
+            {% endif %}
+
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+
+            <label for="inputPassword" class="form-label">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="checkbox mb-3">
+                <label >
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
+
+            <button class="btn btn-lg btn-primary" type="submit">
+                Se connecter
+            </button>
+        </form> <br>
+
+        <!-- 2. Centrer les liens -->
+        <div class="form-footer">
+            <p>Pas encore de compte ? <br>
+                <a href="{{ path('app_register', {type: 'medecin'}) }}">S'inscrire comme Médecin</a>
+                <a href="{{ path('app_register', {type: 'patient'}) }}">S'inscrire comme Patient</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© Copyright 2025 Health.tn Tous droits réservés</p>
+</footer>
+{% endblock %}

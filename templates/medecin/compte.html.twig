@@ -1,0 +1,244 @@
+{# templates/medecin/compte.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte - Médecin{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #80005d;
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        header nav a:hover {
+           /* text-decoration: underline;*/
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #80005d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .card {
+            border: 1px solid #ffe6f2;
+            border-radius: 12px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .card-header {
+            background-color: #80005d;
+            color: white;
+            padding: 15px;
+            border-bottom: 1px solid #ffe6f2;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-footer {
+            background-color: #fdf0f5;
+            padding: 15px;
+            text-align: right;
+            border-top: 1px solid #ffe6f2;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .btn-primary {
+            background-color: #80005d;
+            border-color: #80005d;
+            font-weight: bold;
+        }
+      /*  .card-footer {
+            background-color: #80005d;
+            border-color: #80005d;
+        }*/
+
+        .btn-primary:hover {
+            background-color: #80005d;
+            border-color: #80005d;
+        }
+
+        .btn-secondary {
+            background-color: #ffa3d7;
+            border-color: #ffa3d7;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e094c2;
+            border-color: #e094c2;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+            background-color: #ffe6f2;
+            color: #d63384;
+            border: 1px solid #ffcce0;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-align: center;
+            color: #d63384;
+        }
+
+        p {
+            margin: 0 0 10px;
+            font-size: 1rem;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const alerts = document.querySelectorAll('.alert');
+            setTimeout(() => {
+                alerts.forEach(alert => {
+                    alert.style.transition = 'opacity 0.5s';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                });
+            }, 3000);
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <header>
+        <div class="container">
+            <h1>Mon Portail Médecin</h1>
+            <nav>
+                <a href="{{ path('medecin_dashboard') }}">Dashboard</a>
+                <a href="{{ path('medecin_compte') }}">Mon Compte</a>
+                <a href="{{ path('app_logout') }}">Déconnexion</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <h1>Mon Compte</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="row mt-4">
+            <div class="col-md-8">
+                {{ form_start(form) }}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Informations personnelles</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form_row(form.nom) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(form.prenom) }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    {{ form_row(form.email) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(form.specialite) }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    {{ form_row(form.disponibilite) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(form.numeroPro) }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    {{ form_row(form.numINPLM) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_row(form.plainPassword) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                            <a href="{{ path('medecin_dashboard') }}" class="btn btn-secondary">Retour au tableau de bord</a>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Résumé</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Nombre des RDVs pris :</strong> {{ medecin.rdvs|length }}</p>
+                        <p><strong>Spécialité :</strong> {{ medecin.specialite }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            © Copyright 2025 Health.tn Tous droits réservés
+        </div>
+    </footer>
+{% endblock %}

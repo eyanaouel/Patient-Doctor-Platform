@@ -1,0 +1,187 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prendre rendez-vous{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #ffe6f2; /* Rose clair */
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color:#80005d; /* Rose plus foncé */
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .outer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px); /* Moins l'espace occupé par le header et le footer */
+        }
+
+        .inner-container {
+            width: 600px;
+            padding: 15px; /* Réduction du padding interne */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #4a4a4a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #80005d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px; /* Espacement entre les boutons */
+        }
+
+        button:hover {
+            background-color: #80005d;
+        }
+
+        .btn-secondary {
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: #80005d;
+        }
+
+        .btn-success {
+            background-color: #80005d;
+            border-color: #80005d;
+        }
+
+        .btn-success:hover {
+            background-color: #80005d;
+        }
+
+        footer {
+            background-color: #80005d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<header>
+    <div class="container">
+        <h1>Prendre Rendez-vous</h1>
+        <nav>
+            <a href="{{ path('patient_dashboard') }}">Dashboard</a>
+            <a href="{{ path('patient_compte') }}">Mon Compte</a>
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
+        </nav>
+    </div>
+</header> 
+
+<div class="outer-container">
+    <div class="inner-container">
+        <h3>Prendre rendez-vous avec Dr. {{ medecin.nom }} {{ medecin.prenom }}</h3>
+        {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+        
+        <!-- Date et Heure -->
+        <div class="form-group mb-3">
+            <label for="dateHeure"><strong>Date et Heure:</strong></label>
+            {{ form_widget(form.dateHeure, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <!-- Motif -->
+        <div class="form-group mb-3">
+            <label for="motif"><strong>Motif:</strong></label>
+            {{ form_widget(form.motif, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group mb-3">
+            <label for="notes"><strong>Notes:</strong></label>
+            {{ form_widget(form.notes, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <!-- Boutons -->
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-success">Confirmer le rendez-vous</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div> 
+
+<footer>
+    <p>© Copyright 2025 Health.tn Tous droits réservés</p>
+</footer>
+{% endblock %}

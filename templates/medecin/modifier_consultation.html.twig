@@ -1,0 +1,208 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Consultation{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #ffe6f2; /* Rose clair */
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #80005d; /* Rose plus foncé */
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        header nav a:hover {
+          /*  text-decoration: underline;*/
+            font-weight: bold;
+        }
+
+        .outer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px); /* Moins l'espace occupé par le header et le footer */
+        }
+
+        .inner-container {
+            width: 600px;
+            padding: 15px; /* Réduction du padding interne */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #4a4a4a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #80005d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px; /* Espacement entre les boutons */
+        }
+        .btn-success {
+        background-color: #80005d;
+        border-color: #80005d;
+    }
+    .btn-success:hover {
+        background-color: #80005d;
+        border-color: #80005d;
+    }
+
+        button:hover {
+            background-color: #80005d;
+        }
+
+        .btn-secondary {
+            display: block;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+
+
+        footer {
+            background-color: #80005d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<header>
+    <div class="container">
+        <h1>Gestion des Consultations</h1>
+        <nav>
+            <a href="{{ path('medecin_dashboard') }}">Dashboard</a>
+            <a href="{{ path('medecin_compte') }}">Mon Compte</a>
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
+        </nav>
+    </div>
+</header> <br><br>
+
+<div class="outer-container">
+    <div class="inner-container">
+        <h3>Modifier Consultation</h3>
+        <form action="{{ path('medecin_modifier_consultation', {'id': historique.id}) }}" method="post" enctype="multipart/form-data" id="consultationForm">
+            <!-- Diagnostic -->
+            <div class="form-group mb-3">
+                <label for="diagnostic"><strong>Diagnostic:</strong></label>
+                <textarea id="diagnostic" name="diagnostic" class="form-control" rows="2" required>{{ historique.diagnostic }}</textarea>
+            </div>
+
+            <!-- Prescription -->
+            <div class="form-group mb-3">
+                <label for="prescription"><strong>Prescription:</strong></label>
+                <textarea id="prescription" name="prescription" class="form-control" rows="2">{{ historique.prescription }}</textarea>
+            </div>
+
+            <!-- Notes -->
+            <div class="form-group mb-3">
+                <label for="notes"><strong>Notes:</strong></label>
+                <textarea id="notes" name="notes" class="form-control" rows="3">{{ historique.notes }}</textarea>
+            </div>
+
+            <!-- Documents -->
+            <div class="form-group mb-3">
+                <label for="documents"><strong>Ajouter des documents (nouveaux):</strong></label>
+                <input type="file" id="documents" name="documents[]" multiple class="form-control">
+            </div>
+
+            <!-- Boutons -->
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+                <a href="{{ path('medecin_dossier_patient', {'id': historique.patient.id}) }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</div> <br><br>
+
+<footer>
+    <p>&copy; 2025 Gestion des Consultations. Tous droits réservés.</p>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('consultationForm');
+        form.addEventListener('submit', function (e) {
+            const diagnostic = document.getElementById('diagnostic').value.trim();
+            const prescription = document.getElementById('prescription').value.trim();
+
+            if (!diagnostic) {
+                e.preventDefault();
+                alert('Veuillez remplir le champ Diagnostic.');
+            }
+        });
+    });
+</script>
+{% endblock %}

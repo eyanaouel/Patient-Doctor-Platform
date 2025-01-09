@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrement{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', 'Arial', sans-serif;
+            background-color: #ffe6f2; /* Rose clair */
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #80005d; /* Rose plus foncé */
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .outer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px); /* Moins l'espace occupé par le header et le footer */
+        }
+
+        .inner-container {
+            width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+         
+        h4 {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #80005d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            background-color: #80005d;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        p a {
+            color: #80005d;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #80005d;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<header>
+    <div class="container">
+        <h1>Enregistrement</h1>
+        <nav> 
+                <a href="{{ path('app_home') }}">Acceuil</a> 
+            <a href="{{ path('app_login') }}">Se connecter</a>
+        </nav>
+    </div>
+</header> <br><br>
+
+<div class="outer-container">
+    <div class="inner-container">
+        <h4>Créer un nouveau compte {{ type == 'medecin' ? 'Médecin' : 'Patient' }}</h4>
+
+        {{ form_start(form) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.prenom) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password) }}
+
+            {% if type == 'medecin' %}
+                {{ form_row(form.specialite) }}
+                {{ form_row(form.numINPLM) }}
+            {% endif %}
+
+            {% if type == 'patient' %}
+                {{ form_row(form.CIN) }}
+                {{ form_row(form.dateNaissance, {
+                    'attr': {
+                        'class': 'form-control',
+                        'type': 'date'
+                    }
+                }) }}
+            {% endif %}
+
+            <button type="submit">S'inscrire</button>
+        {{ form_end(form) }}
+
+        <p>Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+    </div>
+</div> 
+<br><br>
+<footer>
+    <p>© Copyright 2025 Health.tn Tous droits réservés</p>
+</footer>
+{% endblock %}
