@@ -19,6 +19,9 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 604800
                 path: /
+    access_control:
+            - { path: ^/medecin, roles: ROLE_MEDECIN }
+            - { path: ^/patient, roles: ROLE_PATIENT }
 
 
 

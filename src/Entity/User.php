@@ -121,7 +121,7 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
-        // Si vous stockez des données temporaires sensibles sur l'utilisateur, effacez-les ici
+        // effacer des données stocker temporaires sensibles sur l'utilisateur
     }
 
     public function getUserIdentifier(): string
