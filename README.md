@@ -1,3 +1,9 @@
+![PHP](https://img.shields.io/badge/PHP-48.8%25-blue)
+![Twig](https://img.shields.io/badge/Twig-48.7%25-orange)
+![JavaScript](https://img.shields.io/badge/JavaScript-2.1%25-yellow)
+![CSS](https://img.shields.io/badge/CSS-0.4%25-blueviolet)
+
+
 # Medical Center Portal
 
 ## Overview
