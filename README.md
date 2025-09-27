@@ -1,7 +1,7 @@
 # Medical Center Portal
 
 ## Overview
-Medical Center Portal is a web application developed with Symfony that facilitates interactions between patients and doctors. Patients can create accounts, book appointments with specific doctors, and access medical files and prescriptions. Doctors can manage their patients, view appointments, and securely upload diagnostic reports and treatment details.
+Medical Center Portal is a web application developed with Symfony that facilitates interactions between patients and doctors. Patients can create accounts, book appointments with specific doctors, and access medical files and prescriptions. Doctors can manage their patients, view appointments, and securely upload diagnostic reports and treatment details, etc..
 
 ## Features
 - **Patient functionalities:**
@@ -19,11 +19,6 @@ Medical Center Portal is a web application developed with Symfony that facilitat
 - **Backend:** Symfony (PHP)
 - **Frontend:** Twig templates, JavaScript, CSS
 - **Database:** MySQL
-- **Language Usage:**
-  - PHP: 48.8%
-  - Twig: 48.7%
-  - JavaScript: 2.1%
-  - CSS: 0.4%
 - **Other Tools:** GitHub, Composer, Bootstrap (optional)
 
 ## Objective
@@ -34,5 +29,3 @@ This project demonstrates my skills in **web development, database management, u
 - Add **email notifications** for appointments
 - Integrate **analytics dashboard** for doctors to track patient metrics
 
-## Screenshots (Optional)
-_Add screenshots or GIFs here to showcase the application interface_
