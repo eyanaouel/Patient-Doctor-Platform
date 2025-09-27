@@ -1,0 +1,34 @@
+# ===============================
+# Force GitHub Linguist à détecter correctement les langages
+# ===============================
+
+# PHP files
+*.php linguist-language=PHP
+
+# Twig template files
+*.twig linguist-language=Twig
+
+# JavaScript files
+*.js linguist-language=JavaScript
+
+# CSS files
+*.css linguist-language=CSS
+
+# ===============================
+# Exclure les dossiers générés / vendor pour ne pas fausser les stats
+# ===============================
+
+/vendor/* linguist-vendored
+/node_modules/* linguist-vendored
+/target/* linguist-vendored
+/build/* linguist-vendored
+/dist/* linguist-vendored
+/nbbuild/* linguist-vendored
+/.nb-gradle/* linguist-vendored
+
+# ===============================
+# Autres fichiers à ignorer pour stats
+# ===============================
+
+*.min.js linguist-vendored
+*.min.css linguist-vendored
