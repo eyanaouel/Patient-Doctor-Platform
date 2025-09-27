@@ -1,0 +1,2 @@
+# Force GitHub to count PHP correctly
+src/**/*.php linguist-language=PHP
